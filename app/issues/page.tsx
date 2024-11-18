@@ -1,6 +1,6 @@
-"use client"
 import React from 'react'
-import { Link, Table } from "@radix-ui/themes"
+import {Table } from "@radix-ui/themes"
+import Link from '../components/Link'
 import prisma from '@/prisma/client'
 import IssueStatusBadge from '../components/IssueStatusBadge'
 import IssueActions from './IssueActions'
@@ -36,7 +36,7 @@ const Issuespage = async () => {
               <IssueStatusBadge  status={issue.status} />
               </Table.Cell>
               <Table.Cell className='hidden md:table-cell'>
-                {issue.createdAT.toDateString()}
+                {issue.createdAt.toDateString()}
               </Table.Cell>
             </Table.Row>
           ))
