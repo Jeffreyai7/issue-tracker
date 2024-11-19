@@ -1,9 +1,21 @@
 import React from 'react'
+import IssueForm from '../../_components/IssueForm'
+import prisma from '@/prisma/client'
+import { notFound } from 'next/navigation'
 
-const Page = () => {
+interface Props {
+  params: {id: string}
+}
+
+const EditIssuePage = async ({params}: Props) => {
+   const issue = await prisma.issue.findUnique({
+    where: {id: parseInt(params.id) }
+   })
+    if(!issue) 
+      notFound();
   return (
-    <div>page</div>
+    <IssueForm issue={issue} />
   )
 }
 
-export default Page
+export default EditIssuePage
