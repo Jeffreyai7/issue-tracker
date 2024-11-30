@@ -1,7 +1,8 @@
 "use client"
 import { useForm } from 'react-hook-form';
 import { Controller } from 'react-hook-form';
-import { SimpleMDEEditor } from '@/app/configuration';
+// import { SimpleMDEEditor } from '@/app/configuration';
+import SimpleMDE from 'react-simplemde-editor';
 import { Button, Callout, TextField, Text } from '@radix-ui/themes';
 import "easymde/dist/easymde.min.css";
 import { useRouter } from 'next/navigation';
@@ -16,17 +17,13 @@ import { z } from 'zod';
 
 type IssueFormData = z.infer<typeof schema>
 
-
-// interface Props {
-//   issue?: Issue
-// }
-
 const IssueForm = ({issue}:{issue?:Issue}) => {
 
   const {register, handleSubmit, control, formState: {errors}} = useForm<IssueFormData>({resolver: zodResolver(schema)});
   const router = useRouter();
   const [error, setError] = useState("")
   const [isSubmitting, setSubmitting] = useState(false)
+
 
   const onSubmit = handleSubmit(async (data) => {
     try{
@@ -46,7 +43,7 @@ const IssueForm = ({issue}:{issue?:Issue}) => {
     <div className='max-w-xl'>
       {
         error && (
-          <Callout.Root color='red' className='mb-5'>
+      <Callout.Root color='red' className='mb-5'>
       <Callout.Text>
         {error}
       </Callout.Text>
@@ -61,7 +58,7 @@ const IssueForm = ({issue}:{issue?:Issue}) => {
         defaultValue={issue?.description}
         name='description'
         control={control}
-        render={({field}) => <SimpleMDEEditor placeholder="Reply to comment…" {...field} />}
+        render={({field}) => <SimpleMDE placeholder="Reply to comment…" {...field} />}
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <Button disabled={isSubmitting} >{issue ? 'Update Issue' : 'Submit New Issue'} {" "} {isSubmitting && <Spinner/> } </Button>

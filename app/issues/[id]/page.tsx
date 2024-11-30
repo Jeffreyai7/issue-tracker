@@ -20,14 +20,13 @@ const IssueDetailPage = async ({params}: Props) => {
 
   await delay(2000) 
   return (
-    <Grid columns={{initial: "1",md:"2"} } gap={"5"}>
+    <Grid columns={{initial: "1", md:"2"} } gap={"5"}>
       <Box>
       <IssueDetails title={issue.title} status={issue.status} createdAt={issue.createdAt} description={issue.description}/>
       </Box>
       <Box>
         <EditIssueButton issueId={issue.id}/>
       </Box>
-        
     </Grid>
   )
 }
