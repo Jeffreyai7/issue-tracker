@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { Inter} from "next/font/google";
 import { Container, Theme, ThemePanel } from "@radix-ui/themes"
 import Navbar from "./Navbar";
+import AuthProvider from "./auth/Provider";
 
 
 const inter = Inter({
@@ -16,7 +17,7 @@ variable: "--font-inter"
 
 export const metadata: Metadata = {
   title: "Issue-Tracker App",
-  description: "A better way to monitor our Expenses",
+  description: "A better way to monitor queries",
 };
 
 export default function RootLayout({
@@ -29,6 +30,7 @@ export default function RootLayout({
       <body
         className={inter.variable}
       >
+        <AuthProvider>
         <Theme appearance="light" accentColor="violet">
         <Navbar/>
         <main className="p-5">
@@ -38,6 +40,7 @@ export default function RootLayout({
         </main>
         {/* <ThemePanel/> */}
         </Theme>
+        </AuthProvider>
       </body>
     </html>
   );

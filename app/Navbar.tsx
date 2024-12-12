@@ -4,6 +4,8 @@ import { usePathname } from 'next/navigation';
 import React from 'react'
 import { AiFillBug } from 'react-icons/ai';
 import classNames from 'classnames';
+import { useSession } from 'next-auth/react';
+import { Box } from '@radix-ui/themes';
 
 const Navbar = () => {
 
@@ -11,6 +13,8 @@ const Navbar = () => {
         {label: "Dashboard", href: "/"},
         {label: "Issues", href: "/issues"}
     ];
+
+    const {status, data: session} = useSession();
 
    const pathname = usePathname()
 
@@ -27,6 +31,14 @@ const Navbar = () => {
                 })}  href={link.href}>{link.label}</Link></li> )
             }
         </ul>
+        <Box>
+            {
+                status === "authenticated" && <Link href={"/api/auth/signout"}>Log out</Link>
+            }
+            {
+                status === "unauthenticated" && <Link href={"/api/auth/signin"}>Log in</Link>
+            }
+        </Box>
     </nav> 
   )
 }
