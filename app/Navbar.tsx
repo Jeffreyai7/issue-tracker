@@ -9,33 +9,55 @@ import { Avatar, Box, Container, DropdownMenu, Flex, Text } from '@radix-ui/them
 
 const Navbar = () => {
 
-    const links = [
-        {label: "Dashboard", href: "/"},
-        {label: "Issues", href: "/issues"}
-    ];
-
-    const {status, data: session} = useSession();
-
-   const pathname = usePathname()
-
   return (
     <nav className=' border-b mb-5 px-5 h-14 py-3'>
         <Container>
         <Flex justify={"between"}>
             <Flex align={"center"} gap={"3"}>
                 <Link href={"/"}><AiFillBug/></Link>
-                <ul className='flex space-x-5'>
+                <Navlinks/>
+            </Flex>
+            <AuthStatus/>
+        </Flex>
+        </Container>
+    </nav> 
+  )
+}
+
+const Navlinks = () => {
+
+    const links = [
+        {label: "Dashboard", href: "/"},
+        {label: "Issues", href: "/issues"}
+    ];
+
+    const pathname = usePathname()
+
+     return (
+        <ul className='flex space-x-5'>
                     {
                         links.map(link => 
                         <li key={link.label}><Link className={classNames({
-                            'text-zinc-900' : link.href === pathname,
-                            'text-zinc-500' : link.href !== pathname,
-                            'hover:text-zinc-800 transition-colors' : true
+                            "nav-link": true,
+                            '!text-zinc-900' : link.href === pathname,
                         })}  href={link.href}>{link.label}</Link></li> )
                     }
                 </ul>
-            </Flex>
-            <Box>
+     )
+}
+
+
+const AuthStatus = () => {
+    
+    const {status, data: session} = useSession();
+
+    if (status === "loading") return null;
+
+    if(status === "unauthenticated")
+        return <Link className='nav-link' href={"/api/auth/signin"}>Log in</Link>
+
+    return (
+        <Box>
             {
                 status === "authenticated" && (
                     <DropdownMenu.Root>
@@ -62,14 +84,8 @@ const Navbar = () => {
                     </DropdownMenu.Root>
                 )
             }
-            {
-                status === "unauthenticated" && <Link href={"/api/auth/signin"}>Log in</Link>
-            }
             </Box>
-        </Flex>
-        </Container>
-    </nav> 
-  )
+    )
 }
 
 export default Navbar
