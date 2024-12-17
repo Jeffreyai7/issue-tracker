@@ -1,3 +1,4 @@
+import { auth } from "@/app/auth";
 import { schema } from "@/app/validationschema";
 import prisma from "@/prisma/client";
 import { Status } from "@prisma/client";
@@ -9,6 +10,10 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
 
+  const session = await auth()
+      if (!session)
+        return NextResponse.json({}, {status:401});
+      
   const id = params?.id;
   if (!id || isNaN(Number(id))) {
     return NextResponse.json(
@@ -53,7 +58,11 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-
+ 
+  const session = await auth()
+      if (!session)
+        return NextResponse.json({}, {status:401});
+      
     const issuedId = await prisma.issue.findUnique({
       where: {
         id: parseInt(params.id)
