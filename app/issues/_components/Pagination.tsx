@@ -20,7 +20,7 @@ const Pagination = ({currentPage, itemsCount, pageSize}: Props) => {
         params.set("page", page.toString());
         router.push('?' + params.toString())
     }
-
+      
     const pageCount = Math.ceil(itemsCount / pageSize);
     if(pageCount <= 1) return null
 
