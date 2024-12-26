@@ -1,13 +1,28 @@
+import prisma from "@/prisma/client";
 import Pagination from "./issues/_components/Pagination";
+import IssueSummary from "./IssueSummary";
+import LatestIssues from "./LatestIssues";
 
-export default function Home({searchParams}: {searchParams :{page: string, status: string} }) {
-  const pageNumber = parseInt(searchParams.page) || 1;
-  console.log("searchParams", pageNumber)
-  return (
+export default  async function Home() {
+ const open = await prisma.issue.count({
+  where: {
+    status: "OPEN"
+  }
+ })
+ const closed = await prisma.issue.count({
+  where: {
+    status: "CLOSED"
+  }
+ })
+ const inProgress = await prisma.issue.count({
+  where: {
+    status: "IN_PROGRESS"
+  }
+ })
+  
+ return (
     <>
-    Hi, I am the Dashboard
-    {/* <Issuespage/> */}
-    <Pagination currentPage={pageNumber} itemsCount={100} pageSize={10}/>
+      <IssueSummary open={open} inProgress={inProgress} closed={closed}/>
     </>
   );
 }
