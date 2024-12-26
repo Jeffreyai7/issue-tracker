@@ -7,6 +7,7 @@ import IssueDetails from './IssueDetails';
 import DeleteIssueButton from './DeleteIssueButton';
 import { auth } from '@/app/auth';
 import AssigneeSelect from './AssigneeSelect';
+import { Description } from '@radix-ui/themes/dist/esm/components/alert-dialog.js';
 
 interface Props {
   params:  {id: string} 
@@ -41,5 +42,15 @@ const IssueDetailPage = async ({params}: Props) => {
     </Grid>
   )
 }
+export default IssueDetailPage;
 
-export default IssueDetailPage
+export async function generateMetadata({params} : Props) {
+ const issue = await prisma.issue.findUnique({where: {
+    id: parseInt(params.id)
+  }})
+
+  return {
+    title: issue?.title,
+    description: "Details of issue " + issue?.id
+  }
+}
