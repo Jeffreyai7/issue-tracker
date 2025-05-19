@@ -1,5 +1,4 @@
 import prisma from "@/prisma/client";
-import Pagination from "./issues/_components/Pagination";
 import IssueSummary from "./components/server-component/IssueSummary";
 import LatestIssues from "./components/server-component/LatestIssues";
 import IssueCharts from "./components/client-component/IssueCharts";
